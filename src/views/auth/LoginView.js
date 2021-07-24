@@ -47,12 +47,12 @@ const LoginView = () => {
             }}
             validationSchema={Yup.object().shape({
               email: Yup.string()
-                .email('Must be a valid email')
+                .email('Email harus valid')
                 .max(255)
-                .required('Email is required'),
+                .required('Email wajib diisi'),
               password: Yup.string()
                 .max(255)
-                .required('Password is required')
+                .required('Password wajib diisi')
             })}
             onSubmit={() => Login(navigate)}
           >

@@ -5,8 +5,10 @@ const Helper = () => {
   const baseurl = process.env.REACT_APP_API_URL;
 
   const [input, setInput] = useState({
+    nama: '',
     email: '',
-    password: ''
+    password: '',
+    role: ''
   });
 
   const changeHandler = e => {
@@ -36,10 +38,35 @@ const Helper = () => {
       });
   };
 
+  const Register = async navigate => {
+    await axios
+      .post(
+        `${baseurl}/user/register`,
+        {
+          nama: input.nama,
+          email: input.email,
+          password: input.password,
+          role: 'user'
+        },
+        {
+          headers: {
+            Accept: 'application/json'
+          }
+        }
+      )
+      .then(response => {
+        navigate('/login', { replace: true });
+      })
+      .catch(error => {
+        console.log(error.response.data);
+      });
+  };
+
   return {
     input,
     changeHandler,
-    Login
+    Login,
+    Register
   };
 };
 
