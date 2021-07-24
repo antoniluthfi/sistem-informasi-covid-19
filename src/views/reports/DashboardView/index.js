@@ -3,7 +3,7 @@ import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import moment from 'moment';
 import Page from 'src/components/Page';
 import JumlahDirawat from './JumlahDirawat';
-import LatestOrders from './LatestOrders';
+import RumahSakit from './RumahSakit';
 import Statistik from './Statistik';
 import JumlahPositif from './JumlahPositif';
 import JumlahMeninggal from './JumlahMeninggal';
@@ -31,16 +31,21 @@ const Dashboard = () => {
     setDataStatistik,
     totalKeseluruhan,
     setTotalKeseluruhan,
-    getDataTerupdate
+    rsRujukan,
+    setRsRujukan,
+    getDataTerupdate,
+    getRumahSakit
   } = Helpers();
 
   useEffect(() => {
     getDataTerupdate();
+    getRumahSakit();
 
     return () => {
       setDataTerupdate({});
       setDataStatistik([]);
       setTotalKeseluruhan([]);
+      setRsRujukan([]);
     };
   }, []);
 
@@ -73,8 +78,8 @@ const Dashboard = () => {
           <Grid item lg={4} md={6} xl={3} xs={12}>
             <TotalKeseluruhan totalKeseluruhan={totalKeseluruhan} />
           </Grid>
-          <Grid item lg={8} md={12} xl={9} xs={12}>
-            <LatestOrders />
+          <Grid item lg={12} md={12} xl={12} xs={12}>
+            <RumahSakit rumahSakit={rsRujukan} />
           </Grid>
         </Grid>
       </Container>

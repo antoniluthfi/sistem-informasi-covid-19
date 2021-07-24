@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import axios from 'axios';
-import moment from 'moment';
 
 const Helpers = () => {
   const baseurl = process.env.REACT_APP_API_URL;
@@ -13,6 +12,7 @@ const Helpers = () => {
     jumlah_meninggal: 0,
     total: 0
   });
+  const [rsRujukan, setRsRujukan] = useState([]);
 
   const getDataTerupdate = () => {
     axios({
@@ -68,6 +68,22 @@ const Helpers = () => {
       });
   };
 
+  const getRumahSakit = async () => {
+    axios({
+      method: 'GET',
+      url: `${baseurl}/rs-rujukan`,
+      headers: {
+        Accept: 'application/json'
+      }
+    })
+      .then(response => {
+        setRsRujukan(response.data.data);
+      })
+      .catch(err => {
+        setRsRujukan(err.response.data.data);
+      });
+  };
+
   return {
     dataTerupdate,
     setDataTerupdate,
@@ -75,7 +91,10 @@ const Helpers = () => {
     setDataStatistik,
     totalKeseluruhan,
     setTotalKeseluruhan,
-    getDataTerupdate
+    rsRujukan,
+    setRsRujukan,
+    getDataTerupdate,
+    getRumahSakit
   };
 };
 
