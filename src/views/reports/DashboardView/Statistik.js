@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Bar } from 'react-chartjs-2';
+import moment from 'moment';
 import {
   Box,
   Button,
@@ -20,24 +21,58 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const Sales = ({ className, ...rest }) => {
+const Sales = ({ className, dataStatistik, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const [tanggal, setTanggal] = useState([]);
+  const [meninggal, setMeninggal] = useState([]);
+  const [sembuh, setSembuh] = useState([]);
+  const [positif, setPositif] = useState([]);
+  const [dirawat, setDirawat] = useState([]);
+
+  // console.log(dataStatistik[0].jumlah_meninggal);
+  const execute = () => {
+    if (dataStatistik[0]) {
+      const dataTanggal = [];
+      const dataMeninggal = [];
+      const dataSembuh = [];
+      const dataPositif = [];
+      const dataDirawat = [];
+
+      dataStatistik.map(item => {
+        dataTanggal.push(moment(item.key_as_string).format('L'));
+        dataMeninggal.push(item.jumlah_meninggal.value);
+        dataSembuh.push(item.jumlah_sembuh.value);
+        dataPositif.push(item.jumlah_positif);
+        dataDirawat.push(item.jumlah_dirawat);
+      });
+
+      setTanggal(dataTanggal);
+      setMeninggal(dataMeninggal);
+      setSembuh(dataSembuh);
+      setPositif(dataPositif);
+      setDirawat(dataDirawat);
+    }
+  };
+
+  useEffect(() => {
+    execute();
+  }, []);
 
   const data = {
     datasets: [
       {
         backgroundColor: colors.indigo[500],
-        data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'This year'
+        data: meninggal,
+        label: 'Jumlah Meninggal'
       },
       {
-        backgroundColor: colors.grey[200],
-        data: [11, 20, 12, 29, 30, 25, 13],
-        label: 'Last year'
+        backgroundColor: colors.green[500],
+        data: sembuh,
+        label: 'Jumlah Sembuh'
       }
     ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug']
+    labels: tanggal
   };
 
   const options = {
@@ -96,40 +131,23 @@ const Sales = ({ className, ...rest }) => {
   };
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
+    <Card className={clsx(classes.root, className)} {...rest}>
       <CardHeader
-        action={(
-          <Button
-            endIcon={<ArrowDropDownIcon />}
-            size="small"
-            variant="text"
-          >
-            Last 7 days
+        action={
+          <Button endIcon={<ArrowDropDownIcon />} size="small" variant="text">
+            Dalam 7 Hari
           </Button>
-        )}
-        title="Latest Sales"
+        }
+        title="Statistik"
       />
       <Divider />
       <CardContent>
-        <Box
-          height={400}
-          position="relative"
-        >
-          <Bar
-            data={data}
-            options={options}
-          />
+        <Box height={400} position="relative">
+          <Bar data={data} options={options} />
         </Box>
       </CardContent>
       <Divider />
-      <Box
-        display="flex"
-        justifyContent="flex-end"
-        p={2}
-      >
+      <Box display="flex" justifyContent="flex-end" p={2}>
         <Button
           color="primary"
           endIcon={<ArrowRightIcon />}

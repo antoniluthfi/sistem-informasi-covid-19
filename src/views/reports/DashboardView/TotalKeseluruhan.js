@@ -13,9 +13,7 @@ import {
   makeStyles,
   useTheme
 } from '@material-ui/core';
-import LaptopMacIcon from '@material-ui/icons/LaptopMac';
-import PhoneIcon from '@material-ui/icons/Phone';
-import TabletIcon from '@material-ui/icons/Tablet';
+import PeopleIcon from '@material-ui/icons/People';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -23,25 +21,36 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const TrafficByDevice = ({ className, ...rest }) => {
+const TotalKeseluruhan = ({ className, totalKeseluruhan, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
 
   const data = {
     datasets: [
       {
-        data: [63, 15, 22],
+        data: [
+          totalKeseluruhan.jumlah_meninggal,
+          totalKeseluruhan.jumlah_positif,
+          totalKeseluruhan.jumlah_sembuh,
+          totalKeseluruhan.jumlah_dirawat
+        ],
         backgroundColor: [
           colors.indigo[500],
           colors.red[600],
-          colors.orange[600]
+          colors.green[600],
+          colors.yellow[600]
         ],
         borderWidth: 8,
         borderColor: colors.common.white,
         hoverBorderColor: colors.common.white
       }
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
+    labels: [
+      'Jumlah Meninggal',
+      'Jumlah Positif',
+      'Jumlah Sembuh',
+      'Jumlah Dirawat'
+    ]
   };
 
   const options = {
@@ -68,71 +77,48 @@ const TrafficByDevice = ({ className, ...rest }) => {
 
   const devices = [
     {
-      title: 'Desktop',
-      value: 63,
-      icon: LaptopMacIcon,
+      title: 'Jumlah Meninggal',
+      value: totalKeseluruhan.jumlah_meninggal,
+      icon: PeopleIcon,
       color: colors.indigo[500]
     },
     {
-      title: 'Tablet',
-      value: 15,
-      icon: TabletIcon,
+      title: 'Jumlah Positif',
+      value: totalKeseluruhan.jumlah_positif,
+      icon: PeopleIcon,
       color: colors.red[600]
     },
     {
-      title: 'Mobile',
-      value: 23,
-      icon: PhoneIcon,
-      color: colors.orange[600]
+      title: 'Jumlah Sembuh',
+      value: totalKeseluruhan.jumlah_sembuh,
+      icon: PeopleIcon,
+      color: colors.green[600]
+    },
+    {
+      title: 'Jumlah Dirawat',
+      value: totalKeseluruhan.jumlah_dirawat,
+      icon: PeopleIcon,
+      color: colors.yellow[600]
     }
   ];
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
-      <CardHeader title="Traffic by Device" />
+    <Card className={clsx(classes.root, className)} {...rest}>
+      <CardHeader title="Total Keseluruhan" />
       <Divider />
       <CardContent>
-        <Box
-          height={300}
-          position="relative"
-        >
-          <Doughnut
-            data={data}
-            options={options}
-          />
+        <Box height={300} position="relative">
+          <Doughnut data={data} options={options} />
         </Box>
-        <Box
-          display="flex"
-          justifyContent="center"
-          mt={2}
-        >
-          {devices.map(({
-            color,
-            icon: Icon,
-            title,
-            value
-          }) => (
-            <Box
-              key={title}
-              p={1}
-              textAlign="center"
-            >
+        <Box display="flex" justifyContent="center" mt={2}>
+          {devices.map(({ color, icon: Icon, title, value }) => (
+            <Box key={title} p={1} textAlign="center">
               <Icon color="action" />
-              <Typography
-                color="textPrimary"
-                variant="body1"
-              >
+              <Typography color="textPrimary" variant="h6">
                 {title}
               </Typography>
-              <Typography
-                style={{ color }}
-                variant="h2"
-              >
-                {value}
-                %
+              <Typography style={{ color }} variant="h6">
+                {value} orang
               </Typography>
             </Box>
           ))}
@@ -142,8 +128,8 @@ const TrafficByDevice = ({ className, ...rest }) => {
   );
 };
 
-TrafficByDevice.propTypes = {
+TotalKeseluruhan.propTypes = {
   className: PropTypes.string
 };
 
-export default TrafficByDevice;
+export default TotalKeseluruhan;

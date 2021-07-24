@@ -14,7 +14,7 @@ import {
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100%'
   },
@@ -32,33 +32,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const TotalCustomers = ({ className, ...rest }) => {
+const JumlahMeninggal = ({ className, total, ...rest }) => {
   const classes = useStyles();
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
+    <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent>
-        <Grid
-          container
-          justify="space-between"
-          spacing={3}
-        >
+        <Grid container justifyContent="space-between" spacing={3}>
           <Grid item>
-            <Typography
-              color="textSecondary"
-              gutterBottom
-              variant="h6"
-            >
-              TOTAL CUSTOMERS
+            <Typography color="textSecondary" gutterBottom variant="h6">
+              JUMLAH SEMBUH
             </Typography>
-            <Typography
-              color="textPrimary"
-              variant="h3"
-            >
-              1,600
+            <Typography color="textPrimary" variant="h3">
+              {total} orang
             </Typography>
           </Grid>
           <Grid item>
@@ -67,22 +53,12 @@ const TotalCustomers = ({ className, ...rest }) => {
             </Avatar>
           </Grid>
         </Grid>
-        <Box
-          mt={2}
-          display="flex"
-          alignItems="center"
-        >
+        <Box mt={2} display="flex" alignItems="center">
           <ArrowUpwardIcon className={classes.differenceIcon} />
-          <Typography
-            className={classes.differenceValue}
-            variant="body2"
-          >
+          <Typography className={classes.differenceValue} variant="body2">
             16%
           </Typography>
-          <Typography
-            color="textSecondary"
-            variant="caption"
-          >
+          <Typography color="textSecondary" variant="caption">
             Since last month
           </Typography>
         </Box>
@@ -91,8 +67,8 @@ const TotalCustomers = ({ className, ...rest }) => {
   );
 };
 
-TotalCustomers.propTypes = {
+JumlahMeninggal.propTypes = {
   className: PropTypes.string
 };
 
-export default TotalCustomers;
+export default JumlahMeninggal;
