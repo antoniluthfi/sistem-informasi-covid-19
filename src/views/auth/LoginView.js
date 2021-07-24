@@ -6,15 +6,15 @@ import {
   Box,
   Button,
   Container,
-  Grid,
   Link,
   TextField,
   Typography,
   makeStyles
 } from '@material-ui/core';
-import FacebookIcon from 'src/icons/Facebook';
-import GoogleIcon from 'src/icons/Google';
 import Page from 'src/components/Page';
+
+// helper
+import Helper from './Helper';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,6 +28,8 @@ const useStyles = makeStyles(theme => ({
 const LoginView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+
+  const { input, changeHandler, Login } = Helper();
 
   return (
     <Page className={classes.root} title="Login">
@@ -52,9 +54,7 @@ const LoginView = () => {
                 .max(255)
                 .required('Password is required')
             })}
-            onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
-            }}
+            onSubmit={() => Login(navigate)}
           >
             {({
               errors,
@@ -78,40 +78,6 @@ const LoginView = () => {
                     Sign in on the internal platform
                   </Typography>
                 </Box>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={6}>
-                    <Button
-                      color="primary"
-                      fullWidth
-                      startIcon={<FacebookIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Facebook
-                    </Button>
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Button
-                      fullWidth
-                      startIcon={<GoogleIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Google
-                    </Button>
-                  </Grid>
-                </Grid>
-                <Box mt={3} mb={1}>
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    or login with email address
-                  </Typography>
-                </Box>
                 <TextField
                   error={Boolean(touched.email && errors.email)}
                   fullWidth
@@ -120,9 +86,9 @@ const LoginView = () => {
                   margin="normal"
                   name="email"
                   onBlur={handleBlur}
-                  onChange={handleChange}
+                  onChange={changeHandler}
                   type="email"
-                  value={values.email}
+                  value={input.email}
                   variant="outlined"
                 />
                 <TextField
@@ -133,9 +99,9 @@ const LoginView = () => {
                   margin="normal"
                   name="password"
                   onBlur={handleBlur}
-                  onChange={handleChange}
+                  onChange={changeHandler}
                   type="password"
-                  value={values.password}
+                  value={input.password}
                   variant="outlined"
                 />
                 <Box my={2}>
