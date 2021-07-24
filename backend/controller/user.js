@@ -94,11 +94,11 @@ const login = async (req, res) => {
 
 const getUser = async (req, res) => {
   const users = await db.users.findAll({
-    attributes: ['nama', 'email', 'nomorhp', 'daftar_vaksin']
+    attributes: ['nama', 'email', 'nomorhp', 'daftar_vaksin', 'role']
   });
   return res.status(200).json({
     success: true,
-    data: users
+    result: users
   });
 };
 
